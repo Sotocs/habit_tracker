@@ -45,8 +45,7 @@ class HabitSerializer(serializers.ModelSerializer):
 
         if is_pleasant and (reward or related_habit):
             raise serializers.ValidationError(
-                "У приятной привычки не может быть награды "
-                "или связанной привычки."
+                "У приятной привычки не может быть награды " "или связанной привычки."
             )
 
         if execution_time > 120:

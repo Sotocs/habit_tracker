@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -72,19 +71,14 @@ class Habit(models.Model):
 
         if self.reward and self.related_habit_id:
             errors["reward"] = (
-                "Нельзя одновременно указать вознаграждение "
-                "и связанную привычку."
+                "Нельзя одновременно указать вознаграждение " "и связанную привычку."
             )
 
         if self.related_habit_id and not self.related_habit.is_pleasant:
-            errors["related_habit"] = (
-                "Связанная привычка должна быть приятной."
-            )
+            errors["related_habit"] = "Связанная привычка должна быть приятной."
 
         if self.is_pleasant and self.reward:
-            errors["reward"] = (
-                "У приятной привычки не может быть вознаграждения."
-            )
+            errors["reward"] = "У приятной привычки не может быть вознаграждения."
 
         if self.is_pleasant and self.related_habit_id:
             errors["related_habit"] = (
@@ -101,4 +95,3 @@ class Habit(models.Model):
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
         ordering = ["time", "id"]
-

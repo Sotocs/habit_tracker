@@ -12,6 +12,9 @@ class HabitListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Habit.objects.none()
+
         return Habit.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
@@ -32,8 +35,6 @@ class HabitDetailView(generics.RetrieveUpdateDestroyAPIView):
         queryset = Habit.objects.filter(is_public=True)
 
         if self.request.user.is_authenticated:
-            queryset = queryset | Habit.objects.filter(
-                user=self.request.user
-            )
+            queryset = queryset | Habit.objects.filter(user=self.request.user)
 
         return queryset

@@ -10,9 +10,6 @@ from rest_framework.test import APITestCase
 User = get_user_model()
 
 
-
-
-
 class HabitPermissionTests(APITestCase):
     def setUp(self):
         self.owner = User.objects.create_user(
@@ -42,16 +39,12 @@ class HabitPermissionTests(APITestCase):
         return f"/api/habits/{habit.pk}/"
 
     def test_anonymous_user_can_view_public_habit(self):
-        response = self.client.get(
-            self.get_detail_url(self.public_habit)
-        )
+        response = self.client.get(self.get_detail_url(self.public_habit))
 
         self.assertEqual(response.status_code, 200)
 
     def test_anonymous_user_cannot_view_private_habit(self):
-        response = self.client.get(
-            self.get_detail_url(self.private_habit)
-        )
+        response = self.client.get(self.get_detail_url(self.private_habit))
 
         self.assertEqual(response.status_code, 404)
 
@@ -85,11 +78,10 @@ class HabitPermissionTests(APITestCase):
     def test_other_user_cannot_view_private_habit(self):
         self.client.force_authenticate(user=self.other_user)
 
-        response = self.client.get(
-            self.get_detail_url(self.private_habit)
-        )
+        response = self.client.get(self.get_detail_url(self.private_habit))
 
         self.assertEqual(response.status_code, 404)
+
 
 class HabitModelTests(TestCase):
     def setUp(self):
@@ -180,6 +172,7 @@ class HabitModelTests(TestCase):
 
         with self.assertRaises(ValidationError):
             habit.full_clean()
+
 
 from rest_framework.test import APITestCase
 from habits.serializers import HabitSerializer
